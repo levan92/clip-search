@@ -14,3 +14,7 @@ pip install -e .
 ### Example
 
 See `examples/example.py`: `cd examples && python example.py`
+
+## Test
+
+`python3 -m unittest`
