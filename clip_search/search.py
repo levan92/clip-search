@@ -25,8 +25,18 @@ class ClipSearch:
     def encode_images(self, rgbs):
         """
         rgbs: list of numpy array (in HWC, RGB) or PIL Image
+
+        returns normalised features
         """
-        # returns normalised features
+        if isinstance(rgbs, np.ndarray) and len(rgbs.shape) == 3:
+            single = True
+            rgbs = np.expand_dims(rgbs, 0)
+        elif isinstance(rgbs, Image.Image):
+            single = True
+            rgbs = [ rgbs ]
+        else:
+            single = False
+
         imgs = []
         for rgb in rgbs:
             if isinstance(rgb, np.ndarray):
@@ -34,13 +44,27 @@ class ClipSearch:
             imgs.append(self.img_preprocess(rgb).to(self.device))
         batch = torch.stack(imgs, 0)
         feats = self.model.encode_image(batch)
-        return feats / feats.norm(dim=-1, keepdim=True)
+        norm_feats = feats / feats.norm(dim=-1, keepdim=True)
+        if single:
+            norm_feats = norm_feats[0]
+        return norm_feats
 
     def encode_texts(self, texts):
-        # returns normalised features
+        """
+        texts: a list of strings
+
+        returns normalised features
+        """
+        single = False
+        if isinstance(texts, str):
+            single = True
+            texts = [texts]
         token_texts = clip.tokenize(texts).to(self.device)
         feats = self.model.encode_text(token_texts)
-        return feats / feats.norm(dim=-1, keepdim=True)
+        norm_feats = feats / feats.norm(dim=-1, keepdim=True)
+        if single:
+            norm_feats = norm_feats[0]
+        return norm_feats
 
     def query_with_feats(self, img_feats, text_feats):
         """

@@ -35,6 +35,18 @@ class TestModule(unittest.TestCase):
         logger.info(f"image features shape {feats.shape}")
         return True
 
+    def test_image_encode_single_np(self):
+        clipsearch = ClipSearch(model_name="RN50")
+        feats = clipsearch.encode_images(RGBS[0])
+        logger.info(f"image features shape {feats.shape}")
+        return True
+
+    def test_image_encode_single_pil(self):
+        clipsearch = ClipSearch(model_name="RN50")
+        feats = clipsearch.encode_images(RGBS_PILS[0])
+        logger.info(f"image features shape {feats.shape}")
+        return True
+
     def test_text_encode(self):
         clipsearch = ClipSearch(model_name="RN50")
         feats = clipsearch.encode_texts(TEXTS)
