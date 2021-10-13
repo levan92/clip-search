@@ -1,4 +1,4 @@
-# CLIP for Forensic Search
+# CLIP for Searching
 
 A simple wrapper around [CLIP](https://github.com/openai/CLIP), inspired from [clifs](https://github.com/johanmodin/clifs).
 
