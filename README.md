@@ -28,6 +28,14 @@ probs_text_query = clipsearch.query_with_feats(img_feats, text_feats[0])
 
 See [./examples/example.py](./examples/example.py) for more: `cd examples && python example.py`
 
+#### Results
+
+- Prediction on `rock.jpg`
+    ![rock](examples/rock_res.jpg)
+
+- Prediction on `smallapple.jpg`
+    ![apple](examples/apple_res.jpg)
+
 ## Test
 
 `python3 -m unittest`
